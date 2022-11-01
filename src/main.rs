@@ -10,7 +10,8 @@ fn main() {
     println!("input: {:?}", cli.input_file);
     // println!("mode: {:?}", cli.mode.unwrap());
 
-
+    // Since mode is Option, it returns either Some(mode) or None
+    // so we make a match case for these two 
     match &cli.mode {
         Some(mode) => {
             match mode.as_str() {

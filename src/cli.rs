@@ -6,6 +6,10 @@ use clap::{Parser};
 #[command(author = "o3f")]
 #[command(version = "1.0")]
 #[command(about = "Adding data to images", long_about = None)]
+
+/// Fields
+/// mode: String < Has to options: 'en' or 'dec' >
+/// input_file: PathBuf < The image we want to hide data to >
 pub struct Cli {
 
     pub mode: Option<String>,    
