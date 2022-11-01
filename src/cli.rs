@@ -6,7 +6,9 @@ use clap::{Parser};
 #[command(version = "1.0")]
 #[command(about = "Adding data to images", long_about = None)]
 pub struct Cli {
-    #[arg(short)]
-    pub input_file: Option<String>,
+
+    pub mode: Option<String>,    
     
+    #[arg(short)]
+    pub input_file: Option<String>,    
 }
