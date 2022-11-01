@@ -1,3 +1,4 @@
+use std::path::{PathBuf};
 use clap::{Parser};
 
 #[derive(Parser)]
@@ -10,5 +11,5 @@ pub struct Cli {
     pub mode: Option<String>,    
     
     #[arg(short)]
-    pub input_file: Option<String>,    
+    pub input_file: PathBuf,    
 }
