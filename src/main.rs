@@ -16,7 +16,7 @@ fn main() {
         Some(mode) => {
             match mode.as_str() {
                 "en" => println!("ENCODING"),
-                "dec" => println!("ENCODING"),
+                "dec" => println!("DECODING"),
                 _ => println!("Consider using one of the modes. use --help for more info")
             }
         },
