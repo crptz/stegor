@@ -20,12 +20,12 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Modes {
-    Encode(File),
-    Decode(Message)
+    Encode(Encode),
+    Decode(Decode)
 }
 
 #[derive(Args)]
-pub struct File {
+pub struct Encode {
     #[arg(short)]
     pub input_file: PathBuf,
 
@@ -37,6 +37,9 @@ pub struct File {
 }
 
 #[derive(Args)]
-pub struct Message {
+pub struct Decode {
+    #[arg(short)]
+    pub input_file: PathBuf,
 
+    pub message: String
 }   
