@@ -31,10 +31,12 @@ pub struct File {
 
     #[arg(short)]
     pub output_file: PathBuf,
+
+    #[arg(short)]
+    pub message: String
 }
 
 #[derive(Args)]
 pub struct Message {
-    #[arg(short)]
-    pub message: String
+
 }   

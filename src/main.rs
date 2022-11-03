@@ -13,9 +13,10 @@ fn main() {
     // println!("mode: {:?}", cli.mode.unwrap());
 
     // Since mode is Option, it returns either Some(mode) or None
-    // so we make a match case for these two 
+    // so we make a match case for these two
+     
     match &cli.mode {
-        Modes::Encode(_) => { todo!()}
+        Modes::Encode(files) => { println!("{:?} \n{:?}", files.input_file, files.output_file) }
         Modes::Decode(_) => { todo!() }
     }
 }
