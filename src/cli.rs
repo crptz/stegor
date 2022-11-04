@@ -14,7 +14,7 @@ pub struct Cli {
     pub mode: Modes,    
     
     #[arg(short)]
-    pub passowrd: String,
+    pub password: String,
 }
 
 

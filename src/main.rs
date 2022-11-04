@@ -26,7 +26,7 @@ fn main() {
         Modes::Encode(args) => { 
             // println!("{:?} \n{:?}", files.input_file, files.output_file);
             
-            encrypt_message();
+            encrypt_message(args.message.to_string());
             println!("{:?}, {:?}", args.input_file, args.output_file);
         }
         Modes::Decode(_) => { todo!() }
@@ -34,8 +34,8 @@ fn main() {
 }
 
 
-fn encrypt_message() {
-
+fn encrypt_message(message: String) {
+    println!("{}", message)
 }
 
 
