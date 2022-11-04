@@ -1,15 +1,21 @@
 mod cli;
 mod utils;
 
-use std::path::PathBuf;
+// use std::path::PathBuf;
 
 use clap::Parser;
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
+use aes::Aes128;
+use block_modes::{BlockMode, Cbc};
+use block_modes::block_padding::Pkcs7;
+use hex_literal::hex;
+use std::str;
+use std::env;
 
 
 use cli::{Cli, Modes};
-use utils::*;
+// use utils::*;
 
 
 fn main() {
