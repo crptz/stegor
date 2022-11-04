@@ -3,11 +3,15 @@ mod utils;
 
 // use std::path::PathBuf;
 
+
 use clap::Parser;
+use passwords::PasswordGenerator;
+use bytes::{BytesMut, BufMut};
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
 // use aes::Aes128;
-// use block_modes::{BlockMode, Cbc};
+
+use libaes::{Cipher, AES_256_KEY_LEN};
 // use block_modes::block_padding::Pkcs7;
 // use hex_literal::hex;
 // use std::str;
@@ -15,7 +19,7 @@ use clap::Parser;
 
 
 use cli::{Cli, Modes};
-// use utils::*;
+use utils::*;
 
 
 fn main() {
@@ -41,7 +45,27 @@ fn main() {
 
 
 fn encrypt_message(message: String) {
-    println!("{}", message)
+    
+    println!("Before encryption: {}", message);
+    
+    let _pg = PasswordGenerator {
+        length: 16,
+        numbers: true,
+        lowercase_letters: true,
+        uppercase_letters: true,
+        symbols: true,
+        spaces: true,
+        exclude_similar_characters: false,
+        strict: true,
+    };
+
+    let mut buf = BytesMut::with_capacity(32);
+    buf.put_slice(&message.as_bytes()[..32]);
+
+    let key:&[u8; AES_256_KEY_LEN] = b"dsafodsijfosidjfodsfdsjofdsjifff";
+    
+    
+    let _cipher = Cipher::new_256(key);
 }
 
 
