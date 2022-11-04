@@ -23,18 +23,26 @@ fn main() {
     // so we make a match case for these two
      
     match &cli.mode {
-        Modes::Encode(files) => { 
+        Modes::Encode(args) => { 
             // println!("{:?} \n{:?}", files.input_file, files.output_file);
             
-            // encode(files.input_file, files.output_file);
+            encrypt_message();
+            println!("{:?}, {:?}", args.input_file, args.output_file);
         }
         Modes::Decode(_) => { todo!() }
     }
 }
 
-fn encode(input_file: PathBuf, output_file: PathBuf) {
-    
+
+fn encrypt_message() {
+
 }
+
+
+
+// fn encode(input_file: PathBuf, output_file: PathBuf) {
+//     
+// }
 // fn get_image(input_file: PathBuf) {
 //     println!("{:?}", input_file);
 // }
