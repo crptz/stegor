@@ -6,12 +6,12 @@ mod utils;
 use clap::Parser;
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
-use aes::Aes128;
-use block_modes::{BlockMode, Cbc};
-use block_modes::block_padding::Pkcs7;
-use hex_literal::hex;
-use std::str;
-use std::env;
+// use aes::Aes128;
+// use block_modes::{BlockMode, Cbc};
+// use block_modes::block_padding::Pkcs7;
+// use hex_literal::hex;
+// use std::str;
+// use std::env;
 
 
 use cli::{Cli, Modes};
