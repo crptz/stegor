@@ -55,6 +55,6 @@ fn encrypt_message(password: String) {
 
     let _encrypted = cipher.cbc_encrypt(iv, plaintext);
 
-    println!("HASHED KEY: {:?}", hashed_key);
+    println!("HASHED KEY: {}", hashed_key.to_string());
 }
 
