@@ -5,16 +5,14 @@ mod utils;
 
 
 use clap::Parser;
-use libaes::{AES_256_KEY_LEN, Cipher};
+use libaes::{ AES_256_KEY_LEN, Cipher };
 use passwords::PasswordGenerator;
-use bytes::{BytesMut, BufMut};
+use bytes::{ Bytes };
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
 // use aes::Aes128;
 
-use pqcrypto::kem::kyber1024::{keypair, encapsulate, decapsulate};
-// use libaes::{Cipher, AES_256_KEY_LEN};
-// use block_modes::block_padding::Pkcs7;
+// use pqcrypto::kem::kyber1024::{keypair, encapsulate, decapsulate};
 // use hex_literal::hex;
 // use std::str;
 // use std::env;
@@ -38,7 +36,7 @@ fn main() {
         Modes::Encode(args) => { 
             // println!("{:?} \n{:?}", files.input_file, files.output_file);
 
-            encrypt_message(args.message.to_string());
+            encrypt_message(cli.password.to_string());
             println!("{:?}, {:?}", args.input_file, args.output_file);
         }
         Modes::Decode(_) => { todo!() }
@@ -46,10 +44,7 @@ fn main() {
 }
 
 
-fn encrypt_message(message: String) {
-    
-    println!("Before encryption: {:?}", message);
-    
+fn encrypt_message(password: String) {
     let _pg = PasswordGenerator {
         length: 16,
         numbers: true,
@@ -61,14 +56,17 @@ fn encrypt_message(message: String) {
         strict: true,
     };
 
-    // let mut buf = BytesMut::with_capacity(32);
-    // buf.put_slice(&message.into().as_bytes()[..32]);
-    // let x = "a";
 
-    let message = b"dsajdiuashdiuashdiasdasdasdsadji";
+    let hashed_key = blake3::hash(password.as_bytes());
+    
+    let plaintext = b"A plaintext";
+    let iv = b"This is 16 bytes";
 
-    // let key:&[u8; AES_256_KEY_LEN] = k;
-    let _cipher = Cipher::new_256(message);
+    let cipher = Cipher::new_256(hashed_key.as_bytes());
+
+    let encrypted = cipher.cbc_encrypt(iv, plaintext);
+
+    println!("{:?}", encrypted);
 }
 
 
