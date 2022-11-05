@@ -1,25 +1,17 @@
 mod cli;
 mod utils;
 
-// use std::path::PathBuf;
-
 
 use clap::Parser;
-use libaes::{ AES_256_KEY_LEN, Cipher };
+use libaes::{ Cipher };
 use passwords::PasswordGenerator;
-use bytes::{ Bytes };
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
-// use aes::Aes128;
 
 // use pqcrypto::kem::kyber1024::{keypair, encapsulate, decapsulate};
-// use hex_literal::hex;
-// use std::str;
-// use std::env;
 
 
 use cli::{Cli, Modes};
-use utils::*;
 
 
 fn main() {
@@ -68,13 +60,4 @@ fn encrypt_message(password: String) {
 
     println!("{:?}", encrypted);
 }
-
-
-
-// fn encode(input_file: PathBuf, output_file: PathBuf) {
-//     
-// }
-// fn get_image(input_file: PathBuf) {
-//     println!("{:?}", input_file);
-// }
 
