@@ -21,13 +21,8 @@ fn main() {
     // println!("input: {:?}", cli.input_file);
     // println!("mode: {:?}", cli.mode.unwrap());
 
-    // Since mode is Option, it returns either Some(mode) or None
-    // so we make a match case for these two
-     
     match &cli.mode {
         Modes::Encode(args) => { 
-            // println!("{:?} \n{:?}", files.input_file, files.output_file);
-
             encrypt_message(cli.password.to_string());
             println!("{:?}, {:?}", args.input_file, args.output_file);
         }
@@ -48,16 +43,18 @@ fn encrypt_message(password: String) {
         strict: true,
     };
 
-
+    // Hash the password with BLAKE3
+    // basically the hashed_key is the password
     let hashed_key = blake3::hash(password.as_bytes());
     
     let plaintext = b"A plaintext";
     let iv = b"This is 16 bytes";
 
+    // Create cipher instance from the hashed_key (password)
     let cipher = Cipher::new_256(hashed_key.as_bytes());
 
-    let encrypted = cipher.cbc_encrypt(iv, plaintext);
+    let _encrypted = cipher.cbc_encrypt(iv, plaintext);
 
-    println!("{:?}", encrypted);
+    println!("HASHED KEY: {:?}", hashed_key);
 }
 
