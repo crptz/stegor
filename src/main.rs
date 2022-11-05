@@ -5,13 +5,15 @@ mod utils;
 
 
 use clap::Parser;
+use libaes::{AES_256_KEY_LEN, Cipher};
 use passwords::PasswordGenerator;
 use bytes::{BytesMut, BufMut};
 // use std::{io::Cursor, path::PathBuf};
 // use image::io::Reader as ImageReader;
 // use aes::Aes128;
 
-use libaes::{Cipher, AES_256_KEY_LEN};
+use pqcrypto::kem::kyber1024::{keypair, encapsulate, decapsulate};
+// use libaes::{Cipher, AES_256_KEY_LEN};
 // use block_modes::block_padding::Pkcs7;
 // use hex_literal::hex;
 // use std::str;
@@ -35,7 +37,7 @@ fn main() {
     match &cli.mode {
         Modes::Encode(args) => { 
             // println!("{:?} \n{:?}", files.input_file, files.output_file);
-            
+
             encrypt_message(args.message.to_string());
             println!("{:?}, {:?}", args.input_file, args.output_file);
         }
@@ -46,7 +48,7 @@ fn main() {
 
 fn encrypt_message(message: String) {
     
-    println!("Before encryption: {}", message);
+    println!("Before encryption: {:?}", message);
     
     let _pg = PasswordGenerator {
         length: 16,
@@ -59,13 +61,14 @@ fn encrypt_message(message: String) {
         strict: true,
     };
 
-    let mut buf = BytesMut::with_capacity(32);
-    buf.put_slice(&message.as_bytes()[..32]);
+    // let mut buf = BytesMut::with_capacity(32);
+    // buf.put_slice(&message.into().as_bytes()[..32]);
+    // let x = "a";
 
-    let key:&[u8; AES_256_KEY_LEN] = b"dsafodsijfosidjfodsfdsjofdsjifff";
-    
-    
-    let _cipher = Cipher::new_256(key);
+    let message = b"dsajdiuashdiuashdiasdasdasdsadji";
+
+    // let key:&[u8; AES_256_KEY_LEN] = k;
+    let _cipher = Cipher::new_256(message);
 }
 
 
