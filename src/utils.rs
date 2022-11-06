@@ -29,7 +29,7 @@ pub fn encrypt_message(password: String) {
     // basically the hashed_key is the password
     let hashed_key = blake3::hash(password.as_bytes());
     
-    let plaintext = b"A plaintext";
+    let plaintext = b"Hi";
 
 
     // Ensure that the Return Type is String
@@ -40,7 +40,13 @@ pub fn encrypt_message(password: String) {
                 // Create cipher instance from the hashed_key (password)
             let cipher = Cipher::new_256(hashed_key.as_bytes());
 
-            let _encrypted = cipher.cbc_encrypt(iv.as_bytes(), plaintext);
+            let encrypted = cipher.cbc_encrypt(iv.as_bytes(), plaintext).to_vec();
+            
+
+            // Convert Vec<u8> to String //
+            // let en_text = String::from_utf8(encrypted).unwrap();
+
+            // return &(iv + &en_text.to_string());
         },
         Err(err) => { println!("Generated password is not String. \n Error message: {}", err) }
     }
@@ -48,7 +54,21 @@ pub fn encrypt_message(password: String) {
     println!("YOUR PASSWORD: {}", hashed_key.to_string());
 }
 
+
+fn write_to_file() {
+    // The basic idea is to write the encrypted message as String to a file
+    // so we can then read the data from the file and decrypted
+}
+
 #[allow(dead_code)]
 pub fn decrypt_message() {
+    /* 
+    let cipher = Cipher::new_256(hashed_key.as_bytes());
 
+    let decrypted = cipher.cbc_decrypt(iv.as_bytes(), &encrypted).to_vec();
+
+    let str2 = String::from_utf8(decrypted).unwrap();
+    
+    println!("DECRYPTED MESSAGE: {}", str2);
+    */
 }
