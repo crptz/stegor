@@ -32,6 +32,7 @@ pub fn encrypt_message(password: String) {
     let plaintext = b"A plaintext";
 
 
+    // Ensure that the Return Type is String
     match pass_gen() {
         Ok(iv) => { 
             println!("{}", iv);
@@ -41,7 +42,7 @@ pub fn encrypt_message(password: String) {
 
             let _encrypted = cipher.cbc_encrypt(iv.as_bytes(), plaintext);
         },
-        Err(err) => { println!("{}", err) }
+        Err(err) => { println!("Generated password is not String. \n Error message: {}", err) }
     }
 
     println!("YOUR PASSWORD: {}", hashed_key.to_string());
