@@ -3,6 +3,7 @@ use libaes::{ Cipher };
 use passwords::PasswordGenerator;
 use image::{DynamicImage, open};
 
+
 #[allow(dead_code)]
 pub fn file_as_dynamic_image(filename: String) -> DynamicImage {
     let img = open(Path::new(&filename)).unwrap();
@@ -28,7 +29,7 @@ fn write_to_file(c: &[u8], iv: &[u8]) {
     // The basic idea is to write the encrypted message as String to a file
     // so we can then read the data from the file and decrypted
 
-    let f = File::create("/tmp/foo").expect("Unable to create file");
+    let f = File::create("./tmp/foo").expect("Unable to create file");
     let mut f = BufWriter::new(f);
     f.write_all([c, iv].concat().as_ref()).expect("Unable to write data");
 }
@@ -38,8 +39,8 @@ pub fn encrypt_message(password: String) {
     // Hash the password with BLAKE3
     // basically the hashed_key is the password
     let hashed_key = blake3::hash(password.as_bytes());
-    
-    let plaintext = b"Hi";
+
+    let plaintext = b"Hi! Decrypt me!";
 
 
     // Ensure that the Return Type is String

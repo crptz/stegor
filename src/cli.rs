@@ -40,6 +40,4 @@ pub struct Encode {
 pub struct Decode {
     #[arg(short)]
     pub input_file: PathBuf,
-
-    pub message: String
 }   
