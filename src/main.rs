@@ -16,5 +16,17 @@ struct StegoArgs {
 fn main() {
     let args = StegoArgs::parse();
 
-    println!("mode: {0} , file: {1} , message: {2:?}", args.mode, args.file, args.message);
+    match args.mode.as_str() {
+        "encode" => {
+            println!("Encoding");
+        }
+        "decode" => {
+            println!("Decoding");
+        }
+        _ => {
+            println!("Invalid Mode.")
+        }
+    }
+
+    // println!("mode: {0} , file: {1} , message: {2:?}", args.mode, args.file, args.message);
 }
