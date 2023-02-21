@@ -5,7 +5,7 @@ use hips_lib::hips::{find_secret_img, hide_secret_img};
 #[command(propagate_version = true)]
 struct StegoArgs {
     /// The mode of operation for the steganography program.
-    /// Allowed values: "encode" or "decode".
+    /// Allowed values: "embed" or "extract".
     #[arg(value_enum)]
     mode: String,
     /// The input file for the steganography program.
@@ -20,7 +20,7 @@ fn main() {
     let args = StegoArgs::parse();
 
     match args.mode.as_str() {
-        "encode" => {
+        "embed" => {
             println!("Encoding");
 
             // image::open(&args.file).expect("Failed to open image");
@@ -35,7 +35,7 @@ fn main() {
 
             assert!(result_img.is_ok());
         }
-        "decode" => {
+        "extract" => {
             println!("Decoding");
 
             let result = find_secret_img(&args.file).unwrap();
