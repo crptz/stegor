@@ -1,5 +1,5 @@
-use clap::{ Parser };
-
+use clap::Parser;
+use hips_lib::hips::{find_secret_img, hide_secret_img};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
@@ -9,7 +9,7 @@ struct StegoArgs {
     #[clap(short, long, required = true)]
     file: String,
     #[clap(short, long)]
-    message: Option<String>
+    message: Option<String>,
 }
 
 fn main() {
@@ -19,12 +19,29 @@ fn main() {
         "encode" => {
             println!("Encoding");
 
-            image::open(&args.file).expect("Failed to open image");
+            // image::open(&args.file).expect("Failed to open image");
 
-            args.message.expect("Message argument is required");
+            // args.message.expect("Message argument is required");
+            let secret = String::from("hiddenimage");
+            let result_img = if let Some(_message) = args.message {
+                hide_secret_img(&args.file, &secret)
+            } else {
+                panic!();
+            };
+
+            assert!(result_img.is_ok());
         }
         "decode" => {
             println!("Decoding");
+
+            let result = find_secret_img(&args.file).unwrap();
+            // assert!(result.is_some());
+            match result {
+                Some(value) => {
+                    println!("{}", value);
+                }
+                None => println!("No value is present"),
+            }
         }
         _ => {
             println!("Invalid Mode.")
