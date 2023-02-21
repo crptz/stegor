@@ -4,10 +4,14 @@ use hips_lib::hips::{find_secret_img, hide_secret_img};
 #[command(author, version, about, long_about = None)]
 #[command(propagate_version = true)]
 struct StegoArgs {
+    /// The mode of operation for the steganography program.
+    /// Allowed values: "encode" or "decode".
     #[arg(value_enum)]
     mode: String,
+    /// The input file for the steganography program.
     #[clap(short, long, required = true)]
     file: String,
+    /// The message to be hidden in the input file.
     #[clap(short, long)]
     message: Option<String>,
 }
