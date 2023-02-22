@@ -3,13 +3,13 @@ use image::io::Reader as ImageReader;
 use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = None)]
+#[command(author="pwn_it@unavoidable0100", version="0.1.0", about="A steganography tool too extract and hide data inside images and more", long_about = None)]
 #[command(propagate_version = true)]
 struct StegoArgs {
     /// The mode of operation for the steganography program.
     /// Allowed values: "embed" or "extract".
     #[arg(value_enum)]
-    mode: String,
+    mode: Mode,
     /// The input file for the steganography program.
     #[clap(short, long, required = true)]
     file: String,
@@ -18,11 +18,17 @@ struct StegoArgs {
     message: Option<String>,
 }
 
+#[derive(Parser)]
+enum Mode {
+    Embed,
+    Extract,
+}
+
 fn main() {
     let args = StegoArgs::parse();
 
-    match args.mode.as_str() {
-        "embed" => {
+    match args.mode {
+        Mode::Embed => {
             println!("Embedding...");
 
             // image::open(&args.file).expect("Failed to open image");
@@ -37,7 +43,7 @@ fn main() {
             // Save the modified image to a file
             modified_image.save("output.png").unwrap();
         }
-        "extract" => {
+        Mode::Extract => {
             println!("Extracting...");
 
             let image = image::open(args.file).unwrap();
