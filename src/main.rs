@@ -1,6 +1,6 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use image::io::Reader as ImageReader;
-use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
+use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
 
 #[derive(Parser)]
 #[command(author="pwn_it@unavoidable0100", version="0.1.0", about="A steganography tool too extract and hide data inside images and more", long_about = None)]
@@ -18,47 +18,42 @@ struct StegoArgs {
     message: Option<String>,
 }
 
-#[derive(Parser)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 enum Mode {
     Embed,
     Extract,
 }
 
-fn main() {
+fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
 
     match args.mode {
         Mode::Embed => {
             println!("Embedding...");
 
-            // image::open(&args.file).expect("Failed to open image");
-
-            // Open an image from a file
-            let image = ImageReader::open(&args.file).unwrap().decode().unwrap();
+            let image = ImageReader::open(&args.file)?.decode()?;
 
             // Embed the message in the image
             let modified_image =
                 embed_message_in_image(image, args.message.expect("Message argument is required"));
 
             // Save the modified image to a file
-            modified_image.save("output.png").unwrap();
+            modified_image.save("output.png")?;
         }
         Mode::Extract => {
             println!("Extracting...");
 
-            let image = image::open(args.file).unwrap();
+            let image = image::open(args.file)?;
+
             if let Some(message) = extract_message_from_image(image) {
                 println!("Extracted message: {}", message);
             } else {
                 println!("No message found in image");
             }
         }
-        _ => {
-            println!("Invalid Mode.")
-        }
     }
 
-    // println!("mode: {0} , file: {1} , message: {2:?}", args.mode, args.file, args.message);
+    Ok(())
 }
 
 fn embed_message_in_image(image: DynamicImage, message: String) -> DynamicImage {
