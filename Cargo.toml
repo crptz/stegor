@@ -2,6 +2,12 @@
 name = "stegor"
 version = "0.1.0"
 edition = "2021"
+authors = ["pwn_it@unavoidable0100"]
+description = "A steganography tool too extract and hide data inside images and more"
+readme = "README.md"
+repository = "https://github.com/unavoidable0100/stego-rs"
+keywords = ["steganography", "images", "encryption", "cli"]
+publish = false # for now :)
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

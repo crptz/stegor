@@ -1,7 +1,6 @@
 use clap::Parser;
-use image::{DynamicImage, Pixel, GenericImageView, GenericImage, Rgba};
 use image::io::Reader as ImageReader;
-
+use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -32,11 +31,11 @@ fn main() {
             let image = ImageReader::open(&args.file).unwrap().decode().unwrap();
 
             // Embed the message in the image
-            let modified_image = embed_message_in_image(image, args.message.expect("Message argument is required"));
+            let modified_image =
+                embed_message_in_image(image, args.message.expect("Message argument is required"));
 
             // Save the modified image to a file
             modified_image.save("output.png").unwrap();
-        
         }
         "extract" => {
             println!("Extracting...");
@@ -47,7 +46,6 @@ fn main() {
             } else {
                 println!("No message found in image");
             }
-
         }
         _ => {
             println!("Invalid Mode.")
@@ -56,9 +54,6 @@ fn main() {
 
     // println!("mode: {0} , file: {1} , message: {2:?}", args.mode, args.file, args.message);
 }
-
-
-
 
 fn embed_message_in_image(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
@@ -109,7 +104,6 @@ fn extract_message_from_image(image: DynamicImage) -> Option<String> {
         let byte = pixel[0];
         message_bytes[byte_index] = byte;
     }
-    
 
     /*
     For loop for accesing pixel positions, it may need in the future
