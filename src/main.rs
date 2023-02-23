@@ -16,7 +16,7 @@ fn main() -> Result<(), ImageError> {
         Mode::Embed => {
             println!("Embedding...");
 
-            let image = ImageReader::open(&args.file)?.decode()?;
+            let image = ImageReader::open(&args.image)?.decode()?;
 
             // Embed the message in the image
             let modified_image =
@@ -28,7 +28,7 @@ fn main() -> Result<(), ImageError> {
         Mode::Extract => {
             println!("Extracting...");
 
-            let image = image::open(args.file)?;
+            let image = image::open(args.image)?;
 
             if let Some(message) = extract_message_from_red_ch(image) {
                 println!("Extracted message: {}", message);

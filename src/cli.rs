@@ -7,9 +7,9 @@ pub struct StegoArgs {
     /// The mode of operation for the steganography program.
     #[arg(value_enum)]
     pub mode: Mode,
-    /// The input file for the steganography program.
+    /// The input image for the steganography program.
     #[clap(short, long, required = true)]
-    pub file: String,
+    pub image: String,
     /// The message to be hidden in the input file.
     #[clap(short, long)]
     pub message: Option<String>,
