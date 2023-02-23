@@ -10,7 +10,7 @@ pub struct StegoArgs {
     /// The input image for the steganography program.
     #[clap(short, long, required = true)]
     pub image: String,
-    /// The message to be hidden in the input file.
+    /// The message to be hidden in the input image.
     #[clap(short, long)]
     pub message: Option<String>,
 }
