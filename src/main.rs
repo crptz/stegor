@@ -1,28 +1,10 @@
-use clap::{Parser, ValueEnum};
+mod cli;
+
+use clap::Parser;
+use cli::*;
+
 use image::io::Reader as ImageReader;
 use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
-
-#[derive(Parser)]
-#[command(author="pwn_it@unavoidable0100", version="0.1.0", about="A steganography tool too extract and hide data inside images and more", long_about = None)]
-#[command(propagate_version = true)]
-struct StegoArgs {
-    /// The mode of operation for the steganography program.
-    /// Allowed values: "embed" or "extract".
-    #[arg(value_enum)]
-    mode: Mode,
-    /// The input file for the steganography program.
-    #[clap(short, long, required = true)]
-    file: String,
-    /// The message to be hidden in the input file.
-    #[clap(short, long)]
-    message: Option<String>,
-}
-
-#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
-enum Mode {
-    Embed,
-    Extract,
-}
 
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
