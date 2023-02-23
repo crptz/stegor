@@ -1,8 +1,11 @@
+// Define my module
 mod cli;
 
-use clap::Parser;
+// My Modules
 use cli::*;
 
+// Other crates
+use clap::Parser;
 use image::io::Reader as ImageReader;
 use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
 
