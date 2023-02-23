@@ -1,61 +1,47 @@
+// Define my module
+mod cli;
+
+// My Modules
+use cli::*;
+
+// Other crates
 use clap::Parser;
 use image::io::Reader as ImageReader;
-use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
+use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
 
-#[derive(Parser)]
-#[command(author, version, about, long_about = None)]
-#[command(propagate_version = true)]
-struct StegoArgs {
-    /// The mode of operation for the steganography program.
-    /// Allowed values: "embed" or "extract".
-    #[arg(value_enum)]
-    mode: String,
-    /// The input file for the steganography program.
-    #[clap(short, long, required = true)]
-    file: String,
-    /// The message to be hidden in the input file.
-    #[clap(short, long)]
-    message: Option<String>,
-}
-
-fn main() {
+fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
 
-    match args.mode.as_str() {
-        "embed" => {
+    match args.mode {
+        Mode::Embed => {
             println!("Embedding...");
 
-            // image::open(&args.file).expect("Failed to open image");
-
-            // Open an image from a file
-            let image = ImageReader::open(&args.file).unwrap().decode().unwrap();
+            let image = ImageReader::open(&args.image)?.decode()?;
 
             // Embed the message in the image
             let modified_image =
-                embed_message_in_image(image, args.message.expect("Message argument is required"));
+            embed_message_in_red_ch(image, args.message.expect("Message argument is required"));
 
             // Save the modified image to a file
-            modified_image.save("output.png").unwrap();
+            modified_image.save("output.png")?;
         }
-        "extract" => {
+        Mode::Extract => {
             println!("Extracting...");
 
-            let image = image::open(args.file).unwrap();
-            if let Some(message) = extract_message_from_image(image) {
+            let image = image::open(args.image)?;
+
+            if let Some(message) = extract_message_from_red_ch(image) {
                 println!("Extracted message: {}", message);
             } else {
                 println!("No message found in image");
             }
         }
-        _ => {
-            println!("Invalid Mode.")
-        }
     }
 
-    // println!("mode: {0} , file: {1} , message: {2:?}", args.mode, args.file, args.message);
+    Ok(())
 }
 
-fn embed_message_in_image(image: DynamicImage, message: String) -> DynamicImage {
+fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
     let message_bytes = message.into_bytes();
     let message_length = message_bytes.len();
@@ -89,7 +75,7 @@ fn embed_message_in_image(image: DynamicImage, message: String) -> DynamicImage 
     new_image
 }
 
-fn extract_message_from_image(image: DynamicImage) -> Option<String> {
+fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
     // Get the first pixel in the image
     let first_pixel = image.get_pixel(0, 0);
 
