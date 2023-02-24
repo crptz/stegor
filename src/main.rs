@@ -12,15 +12,27 @@ use image::io::Reader as ImageReader;
 use image::ImageError;
 use owo_colors::OwoColorize;
 use std::path::Path;
+const ASCII_BANNER: &'static str = r#"
+
+     _                        
+    | |                       
+ ___| |_ ___  __ _  ___  _ __ 
+/ __| __/ _ \/ _` |/ _ \| '__|
+\__ \ ||  __/ (_| | (_) | |   
+|___/\__\___|\__, |\___/|_|   
+              __/ |           
+             |___/            
+
+"#;
 
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
 
     match args.mode {
-        Mode::Embed => {
+        Some(Mode::Embed) => {
             println!("Embedding...");
 
-            let image = ImageReader::open(&args.image)?.decode()?;
+            let image = ImageReader::open(&args.image.unwrap_or_default())?.decode()?;
 
             // Embed the message in the image
             let modified_image =
@@ -46,15 +58,25 @@ fn main() -> Result<(), ImageError> {
                 }
             }
         }
-        Mode::Extract => {
+        Some(Mode::Extract) => {
             println!("Extracting...");
 
-            let image = image::open(args.image)?;
+            let image = image::open(args.image.unwrap_or_default())?;
 
             if let Some(message) = extract_message_from_red_ch(image) {
                 println!("Extracted message: {}", message);
             } else {
                 println!("No message found in image");
+            }
+        }
+        None => {
+            if args.is_empty() {
+                println!(
+                    "{}{}{}",
+                    "Welcome to stegor!".purple(),
+                    ASCII_BANNER.cyan(),
+                    "v0.1.0".yellow()
+                );
             }
         }
     }

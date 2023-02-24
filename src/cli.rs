@@ -6,12 +6,12 @@ use clap::{Parser, ValueEnum};
 pub struct StegoArgs {
     /// The mode of operation for the steganography program.
     #[arg(value_enum)]
-    pub mode: Mode,
+    pub mode: Option<Mode>,
     /// The input image for the steganography program.
-    #[clap(short, long, required = true)]
-    pub image: String,
-    /// The message to be hidden in the input image.
     #[clap(short, long)]
+    pub image: Option<String>,
+    /// The message to be hidden in the input image.
+    #[clap(short, long, requires = "image")]
     pub message: Option<String>,
     /// Option to specify the output image
     #[clap(short, long)]
@@ -22,4 +22,13 @@ pub struct StegoArgs {
 pub enum Mode {
     Embed,
     Extract,
+}
+
+impl StegoArgs {
+    pub fn is_empty(&self) -> bool {
+        self.mode.is_none()
+            && self.image.is_none()
+            && self.message.is_none()
+            && self.output.is_none()
+    }
 }
