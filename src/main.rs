@@ -33,10 +33,9 @@ fn main() -> Result<(), ImageError> {
                 match modified_image.save(path) {
                     Ok(()) => println!("{} {:?}", "Image saved to:".green(), output_path),
                     Err(err) => println!(
-                        "{} {} {} {}",
+                        "{} {} \nDid you specify the image extension? {}",
                         "Error:".red(),
                         err.red(),
-                        "\nDid you specify the image extension?",
                         "[ ~/path/to/image.png ]".green()
                     ),
                 }
