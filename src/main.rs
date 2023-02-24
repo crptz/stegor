@@ -29,11 +29,16 @@ fn main() -> Result<(), ImageError> {
             if let Some(output_path) = args.output {
                 let path = Path::new(&output_path);
                 // Save the output image to the specified path
-                modified_image.save(path)?;
+                match modified_image.save(path) {
+                    Ok(()) => println!("Image saved to: {:?}", output_path),
+                    Err(err) => println!("{}", err),
+                }
             } else {
-                modified_image.save("output.png")?;
+                match modified_image.save("output.png") {
+                    Ok(()) => println!("Image saved to output.png"),
+                    Err(err) => println!("{}", err),
+                }
             }
-            
         }
         Mode::Extract => {
             println!("Extracting...");
