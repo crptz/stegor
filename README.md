@@ -18,13 +18,15 @@ You can also specify the output filename image:
 stegor embed -i ./imposter.png -m "AGAIN AND AGAIN AND AGAIN" -o ~/path/to/other_name.png
 ```
 
-
 ### Extract data
 ```
 stegor extract -i ./output.png
 ```
 
+# Todo List
 
-# Todo
-
-To be updated ...
+- [✓] Support PNG images
+- [✗] Write the user manual
+- [✗] Add support for JPEG images
+- [✗] Improve performance of the encoding algorithm
+- [✗] Create algorithm to store data in image instead adding them at start of the image
