@@ -9,14 +9,19 @@ The currently implemented method for embedding a message into an image involves 
 
 ### Embed data
 ```
-stegor embed -f ./imposter.png -m "hiddenmessage"
+stegor embed -i ./imposter.png -m "hiddenmessage"
+```
+**by default the image will be outputed to a new image in the same directory called** `output.png`
+
+You can also specify the output filename image:
+```
+stegor embed -i ./imposter.png -m "AGAIN AND AGAIN AND AGAIN" -o ~/path/to/other_name.png
 ```
 
-**by default the image will be outputed to a new image in the same directory called** `output.png`
 
 ### Extract data
 ```
-stegor extract -f ./output.png
+stegor extract -i ./output.png
 ```
 
 
