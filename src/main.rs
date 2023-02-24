@@ -7,6 +7,7 @@ use cli::*;
 use utils::*;
 
 // External crates
+use owo_colors::OwoColorize;
 use clap::Parser;
 use image::io::Reader as ImageReader;
 use image::ImageError;
@@ -31,7 +32,7 @@ fn main() -> Result<(), ImageError> {
                 // Save the output image to the specified path
                 match modified_image.save(path) {
                     Ok(()) => println!("Image saved to: {:?}", output_path),
-                    Err(err) => println!("{}", err),
+                    Err(err) => println!("{} {} {} {}", "Error:".red(), err.red(), "\nDid you specify the image extension?", "[ ~/path/to/image.png ]".green()),
                 }
             } else {
                 match modified_image.save("output.png") {
