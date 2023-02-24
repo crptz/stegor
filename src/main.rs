@@ -7,10 +7,10 @@ use cli::*;
 use utils::*;
 
 // External crates
-use owo_colors::OwoColorize;
 use clap::Parser;
 use image::io::Reader as ImageReader;
 use image::ImageError;
+use owo_colors::OwoColorize;
 use std::path::Path;
 
 fn main() -> Result<(), ImageError> {
@@ -31,12 +31,18 @@ fn main() -> Result<(), ImageError> {
                 let path = Path::new(&output_path);
                 // Save the output image to the specified path
                 match modified_image.save(path) {
-                    Ok(()) => println!("Image saved to: {:?}", output_path),
-                    Err(err) => println!("{} {} {} {}", "Error:".red(), err.red(), "\nDid you specify the image extension?", "[ ~/path/to/image.png ]".green()),
+                    Ok(()) => println!("{} {:?}", "Image saved to:".green(), output_path),
+                    Err(err) => println!(
+                        "{} {} {} {}",
+                        "Error:".red(),
+                        err.red(),
+                        "\nDid you specify the image extension?",
+                        "[ ~/path/to/image.png ]".green()
+                    ),
                 }
             } else {
                 match modified_image.save("output.png") {
-                    Ok(()) => println!("Image saved to output.png"),
+                    Ok(()) => println!("{}", "Image saved to output.png".green()),
                     Err(err) => println!("{}", err),
                 }
             }
