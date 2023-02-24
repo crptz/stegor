@@ -13,6 +13,9 @@ pub struct StegoArgs {
     /// The message to be hidden in the input image.
     #[clap(short, long)]
     pub message: Option<String>,
+    /// Option to specify the output image
+    #[clap(short, long)]
+    pub output: Option<String>
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]

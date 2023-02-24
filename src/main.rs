@@ -6,10 +6,11 @@ mod utils;
 use cli::*;
 use utils::*;
 
-// Other crates
+// External crates
 use clap::Parser;
 use image::io::Reader as ImageReader;
 use image::ImageError;
+use std::path::Path;
 
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
@@ -25,7 +26,14 @@ fn main() -> Result<(), ImageError> {
                 embed_message_in_red_ch(image, args.message.expect("Message argument is required"));
 
             // Save the modified image to a file
-            modified_image.save("output.png")?;
+            if let Some(output_path) = args.output {
+                let path = Path::new(&output_path);
+                // Save the output image to the specified path
+                modified_image.save(path)?;
+            } else {
+                modified_image.save("output.png")?;
+            }
+            
         }
         Mode::Extract => {
             println!("Extracting...");
