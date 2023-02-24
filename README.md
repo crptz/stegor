@@ -3,7 +3,7 @@ The goal of this project is to develop a steganography tool that is minimal, yet
 
 # Methods
 The currently implemented method for embedding a message into an image involves storing the length of the message in the Red channel of the first pixel, followed by sequentially adding the message data to each pixel's Red channel.
-
+***This also means that currently the program supports only lossless image formats.***
 
 # Commands
 
@@ -23,9 +23,17 @@ stegor embed -i ./imposter.png -m "AGAIN AND AGAIN AND AGAIN" -o ~/path/to/other
 stegor extract -i ./output.png
 ```
 
+# Some things to note about this project
+- This project depends entirely (at least for now) on [image](https://crates.io/crates/image)  crate, this means that it only supports formats that the image crate supports
+- For now the project support only one method to embed message into images
+- It only supports Lossless for images (BMP, GIF, TIFF)
+- Also please note that GIF embeding isn't done for all frames, it takes only one frame and it outputs it, this means that it outputs and image and not a GIF.
+
+For more please see the [TODO](#todo-list) list
+
 # Todo List
 
-- [✓] Support PNG images
+- [✓] Support PNG images or any other Lossless format images (BMP, GIF, TIFF)
 - [✗] Write the user manual
 - [✗] Add support for JPEG images
 - [✗] Improve performance of the encoding algorithm
