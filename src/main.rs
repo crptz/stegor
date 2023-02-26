@@ -32,7 +32,15 @@ fn main() -> Result<(), ImageError> {
         Some(Mode::Embed) => {
             println!("Embedding...");
 
-            let image = ImageReader::open(&args.image.unwrap_or_default())?.decode()?;
+            let image_result = match ImageReader::open(&args.image.unwrap_or_default()) {
+                Ok(reader) => reader.decode(),
+                Err(e) => {
+                    eprintln!("{} {}", "Error opening image:".red(), e);
+                    return Ok(());
+                }
+            };
+
+            let image = image_result?;
 
             // Embed the message in the image
             let modified_image =
