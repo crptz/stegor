@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
 
 pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
@@ -59,6 +61,20 @@ pub fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
 
     // Convert the message bytes vector to a string
     String::from_utf8(message_bytes).ok()
+}
+
+
+pub fn is_lossy_image(path: &str) -> bool {
+    let ext = Path::new(path)
+        .extension()
+        .and_then(|ext| ext.to_str())
+        .unwrap_or_default();
+
+    match ext {
+        "jpg" | "jpeg" | "webp" | "heif" => true,
+        "png" | "gif" | "bmp" => false,
+        _ => panic!("Unknown file extension"),
+    }
 }
 
 /*
