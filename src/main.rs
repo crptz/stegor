@@ -35,18 +35,27 @@ fn main() -> Result<(), ImageError> {
             // let open = &args.image.unwrap_or_default();
 
             if let Some(image_path) = args.image.as_ref() {
+
+                let image = match load_image(image_path) {
+                    Ok(image) => image,
+                    Err(e) => {
+                        eprintln!("{}", e);
+                        return Ok(());
+                    }
+                };
+
                 if is_lossy_image(image_path.as_str()) {
-                    println!("It's lossy")
+                    println!("It's lossy");
+                    // Embed the message in the image
+                    let modified_image = embed_message_in_blue_ch(
+                        image,
+                        args.message.expect("Message argument is required"),
+                    );
+
+                    save_image(image_path, args.output.as_deref(), &modified_image).unwrap();
+                    
                 } else {
                     println!("It's lossless");
-                    let image = match load_image(image_path) {
-                        Ok(image) => image,
-                        Err(e) => {
-                            eprintln!("{}", e);
-                            return Ok(());
-                        }
-                    };
-
                     // Embed the message in the image
                     let modified_image = embed_message_in_red_ch(
                         image,
