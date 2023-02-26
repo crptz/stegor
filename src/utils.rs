@@ -1,6 +1,7 @@
-use std::path::Path;
+use std::{error::Error, path::Path};
 
 use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
+use owo_colors::OwoColorize;
 
 pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
@@ -63,7 +64,6 @@ pub fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
     String::from_utf8(message_bytes).ok()
 }
 
-
 pub fn is_lossy_image(path: &str) -> bool {
     let ext = Path::new(path)
         .extension()
@@ -75,6 +75,41 @@ pub fn is_lossy_image(path: &str) -> bool {
         "png" | "gif" | "bmp" => false,
         _ => panic!("Unknown file extension"),
     }
+}
+
+pub fn save_image(
+    input_path: &str,
+    output_path: Option<&str>,
+    modified_image: &DynamicImage,
+) -> Result<(), Box<dyn Error>> {
+    let path = Path::new(&input_path);
+    let mut output_file_path = String::new();
+
+    // If output path is provided, use that, else use default output file name
+    if let Some(path) = output_path {
+        output_file_path = path.to_string();
+    } else {
+        let input_file_name = path
+            .file_stem()
+            .ok_or("Invalid input file path")?
+            .to_str()
+            .ok_or("Invalid input file path")?;
+        output_file_path = format!("{}_output.png", input_file_name);
+    }
+
+    // Save the modified image to a file
+    let output_path = Path::new(&output_file_path);
+    match modified_image.save(output_path) {
+        Ok(()) => println!("{} {:?}", "Image saved to:".green(), output_path),
+        Err(err) => println!(
+            "{} {} \nDid you specify the image extension? {}",
+            "Error:".red(),
+            err.red(),
+            "[ ~/path/to/image.png ]".green()
+        ),
+    }
+
+    Ok(())
 }
 
 /*
