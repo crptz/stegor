@@ -1,6 +1,6 @@
 use std::{error::Error, path::Path};
 
-use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
+use image::{DynamicImage, GenericImage, ImageBuffer, GenericImageView, Pixel, Rgba};
 use owo_colors::OwoColorize;
 
 pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
@@ -64,70 +64,6 @@ pub fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
     String::from_utf8(message_bytes).ok()
 }
 
-
-
-pub fn embed_message_in_blue_ch(image: DynamicImage, message: String) -> DynamicImage {
-    // Get the message bytes and length
-    let message_bytes = message.into_bytes();
-    let message_length = message_bytes.len();
-
-    // Create a new image with the same dimensions as the original image
-    let mut new_image = DynamicImage::new_rgba8(image.width(), image.height());
-
-    // Iterate over the pixels in the original image and embed the message bytes in the blue channel
-    let mut byte_index = 0;
-    for (x, y, pixel) in image.pixels() {
-        let mut new_pixel = pixel.to_rgba();
-
-        // Embed the message byte in the least significant bit of the blue channel
-        if byte_index < message_length {
-            let message_byte = message_bytes[byte_index];
-            let old_blue = new_pixel[2];
-            let new_blue = ((old_blue >> 1) << 1) | (message_byte & 0x01);
-            new_pixel[2] = new_blue;
-            byte_index += 1;
-        }
-
-        // Put the new pixel in the new image
-        new_image.put_pixel(x, y, new_pixel);
-    }
-
-    new_image
-}
-
-pub fn extract_message_from_blue_ch(image: DynamicImage) -> Option<String> {
-    // Initialize a vector to hold the message bytes
-    let mut message_bytes = Vec::new();
-
-    // Iterate over the pixels in the image and extract the least significant bit of the blue channel
-    for (_, _, pixel) in image.pixels() {
-        let blue = pixel[2];
-        let message_byte = blue & 0x01;
-        message_bytes.push(message_byte);
-    }
-
-    // Convert the message bytes vector to a string
-    String::from_utf8(bits_to_bytes(&message_bytes)).ok()
-}
-
-fn bits_to_bytes(bits: &[u8]) -> Vec<u8> {
-    let mut bytes = Vec::new();
-    let mut byte = 0;
-    let mut mask = 0x80;
-    for bit in bits {
-        byte |= (*bit as u8) << mask;
-        mask -= 1;
-        if mask == 0xFF {
-            bytes.push(byte);
-            byte = 0;
-            mask = 0x80;
-        }
-    }
-    if mask != 0x80 {
-        bytes.push(byte);
-    }
-    bytes
-}
 
 
 pub fn is_lossy_image(path: &str) -> bool {
