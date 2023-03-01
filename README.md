@@ -25,9 +25,9 @@ stegor extract -i ./output.png
 
 # Some things to note about this project
 - This project depends entirely (at least for now) on [image](https://crates.io/crates/image)  crate, this means that it only supports formats that the image crate supports
-- For now the project support only one method to embed message into images
-- It only supports Lossless for images (BMP, GIF, TIFF)
-- Also please note that GIF embeding isn't done for all frames, it takes only one frame and it outputs it, this means that it outputs and image and not a GIF.
+- For now the project supports only one method to embed message into images
+- It only supports Lossless images (PNG, BMP, GIF, TIFF)
+- Also please note that GIF embeding isn't done for all frames, it takes only one frame and it outputs it, this means that it outputs an image and not a GIF.
 
 For more please see the [TODO](#todo-list) list
 
