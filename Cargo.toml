@@ -13,8 +13,5 @@ publish = false # for now :)
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
-hex="0.4.3"
-hex-literal="0.3.3"
-bytes = "1.2.1"
 image = "0.24.5"
 owo-colors = "3.5.0"
