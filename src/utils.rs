@@ -3,7 +3,7 @@ use image::io::Reader as ImageReader;
 use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
 use owo_colors::OwoColorize;
 
-pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
+fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
     let message_bytes = message.into_bytes();
     let message_length = message_bytes.len();
@@ -37,7 +37,7 @@ pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicI
     new_image
 }
 
-pub fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
+fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
     // Get the first pixel in the image
     let first_pixel = image.get_pixel(0, 0);
 
