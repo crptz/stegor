@@ -1,4 +1,7 @@
-use image::{DynamicImage, GenericImage, GenericImageView, Pixel, Rgba};
+use crate::cli::StegoArgs;
+use image::io::Reader as ImageReader;
+use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
+use owo_colors::OwoColorize;
 
 pub fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
@@ -61,3 +64,40 @@ pub fn extract_message_from_red_ch(image: DynamicImage) -> Option<String> {
     String::from_utf8(message_bytes).ok()
 }
 
+// This function triggers whenever the user specifies the embed mode
+pub fn embed_message(args: StegoArgs) -> Result<(), ImageError> {
+    println!("Embedding...");
+
+    let image_result = ImageReader::open(args.image.as_deref().unwrap_or_default())?.decode()?;
+    let modified_image = embed_message_in_red_ch(
+        image_result,
+        args.message.expect("Message argument is required"),
+    );
+
+    let output_path = args.output.unwrap_or_else(|| {
+        format!(
+            "output.{}",
+            args.image
+                .as_deref()
+                .and_then(|s| s.split('.').last())
+                .unwrap_or("png")
+        )
+    });
+
+    save_image(modified_image, output_path)
+}
+
+// Save the image
+pub fn save_image(image: DynamicImage, path: String) -> Result<(), ImageError> {
+    match image.save(&path) {
+        Ok(()) => println!("{} {:?}", "Image saved to:".green(), path),
+        Err(err) => println!(
+            "{} {} \nDid you specify the image extension? {}",
+            "Error:".red(),
+            err.red(),
+            "[ ~/path/to/image.png ]".green()
+        ),
+    }
+
+    Ok(())
+}
