@@ -3,6 +3,19 @@ use image::io::Reader as ImageReader;
 use image::{DynamicImage, GenericImage, GenericImageView, ImageError, Pixel, Rgba};
 use owo_colors::OwoColorize;
 
+const ASCII_BANNER: &str = r#"
+
+     _                        
+    | |                       
+ ___| |_ ___  __ _  ___  _ __ 
+/ __| __/ _ \/ _` |/ _ \| '__|
+\__ \ ||  __/ (_| | (_) | |   
+|___/\__\___|\__, |\___/|_|   
+              __/ |           
+             |___/            
+
+"#;
+
 fn embed_message_in_red_ch(image: DynamicImage, message: String) -> DynamicImage {
     // Get the message bytes and length
     let message_bytes = message.into_bytes();
@@ -100,6 +113,17 @@ pub fn extract_message(args: StegoArgs) -> Result<(), ImageError> {
     }
 
     Ok(())
+}
+
+pub fn print_banner(args: StegoArgs) {
+    if args.is_empty() {
+        println!(
+            "{}{}{}",
+            "Welcome to stegor!".purple(),
+            ASCII_BANNER.cyan(),
+            "v0.1.0".yellow()
+        );
+    }
 }
 
 // Save the image

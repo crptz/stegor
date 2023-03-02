@@ -9,19 +9,6 @@ use utils::*;
 // External crates
 use clap::Parser;
 use image::ImageError;
-use owo_colors::OwoColorize;
-const ASCII_BANNER: &str = r#"
-
-     _                        
-    | |                       
- ___| |_ ___  __ _  ___  _ __ 
-/ __| __/ _ \/ _` |/ _ \| '__|
-\__ \ ||  __/ (_| | (_) | |   
-|___/\__\___|\__, |\___/|_|   
-              __/ |           
-             |___/            
-
-"#;
 
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
@@ -34,14 +21,7 @@ fn main() -> Result<(), ImageError> {
             extract_message(args).unwrap();
         }
         None => {
-            if args.is_empty() {
-                println!(
-                    "{}{}{}",
-                    "Welcome to stegor!".purple(),
-                    ASCII_BANNER.cyan(),
-                    "v0.1.0".yellow()
-                );
-            }
+            print_banner(args);
         }
     }
 
