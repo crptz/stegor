@@ -39,3 +39,15 @@ For more please see the [TODO](#todo-list) list
 - [✗] Add support for JPEG images
 - [✗] Improve performance of the encoding algorithm
 - [✗] Create algorithm to store data random position in image instead adding them at start of the image
+
+# Build and Run
+
+Clone the repository and:
+
+```
+cargo build --release
+```
+
+you will find the exe inside `target/release`
+
+add it to your PATH to run it from anywhere in terminal
