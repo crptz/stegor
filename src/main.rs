@@ -26,22 +26,12 @@ const ASCII_BANNER: &str = r#"
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
 
-    let input_path: Option<&str> = args.image.as_ref().map(|s| s.as_ref());
-
     match args.mode {
         Some(Mode::Embed) => {
             embed_message(args).unwrap();
         }
         Some(Mode::Extract) => {
-            println!("Extracting...");
-
-            let image = image::open(input_path.unwrap_or_default())?;
-
-            if let Some(message) = extract_message_from_red_ch(image) {
-                println!("Extracted message: {}", message);
-            } else {
-                println!("No message found in image");
-            }
+            extract_message(args).unwrap();
         }
         None => {
             if args.is_empty() {

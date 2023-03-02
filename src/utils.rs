@@ -87,6 +87,21 @@ pub fn embed_message(args: StegoArgs) -> Result<(), ImageError> {
     save_image(modified_image, output_path)
 }
 
+// This function triggers whenever the user specifies the extract mode
+pub fn extract_message(args: StegoArgs) -> Result<(), ImageError> {
+    println!("Extracting...");
+
+    let image = ImageReader::open(args.image.as_deref().unwrap_or_default())?.decode()?;
+    let message = extract_message_from_red_ch(image);
+
+    match message {
+        Some(message) => println!("Extracted message: {}", message),
+        None => println!("No message found in image"),
+    }
+
+    Ok(())
+}
+
 // Save the image
 pub fn save_image(image: DynamicImage, path: String) -> Result<(), ImageError> {
     match image.save(&path) {
