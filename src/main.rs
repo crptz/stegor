@@ -12,7 +12,7 @@ use image::io::Reader as ImageReader;
 use image::ImageError;
 use owo_colors::OwoColorize;
 use std::path::Path;
-const ASCII_BANNER: &'static str = r#"
+const ASCII_BANNER: &str = r#"
 
      _                        
     | |                       
@@ -28,11 +28,13 @@ const ASCII_BANNER: &'static str = r#"
 fn main() -> Result<(), ImageError> {
     let args = StegoArgs::parse();
 
+    let input_path: Option<&str> = args.image.as_ref().map(|s| s.as_ref());
+
     match args.mode {
         Some(Mode::Embed) => {
             println!("Embedding...");
 
-            let image_result = match ImageReader::open(&args.image.unwrap_or_default()) {
+            let image_result = match ImageReader::open(input_path.unwrap_or_default()) {
                 Ok(reader) => reader.decode(),
                 Err(e) => {
                     eprintln!("{} {}", "Error opening image:".red(), e);
@@ -60,16 +62,29 @@ fn main() -> Result<(), ImageError> {
                     ),
                 }
             } else {
-                match modified_image.save("output.png") {
-                    Ok(()) => println!("{}", "Image saved to output.png".green()),
-                    Err(err) => println!("{}", err),
+                let output_path = format!(
+                    "output.{}",
+                    input_path
+                        .expect("Input path not specified")
+                        .split('.')
+                        .last()
+                        .unwrap_or("png")
+                );
+                match modified_image.save(&output_path) {
+                    Ok(()) => println!("{} {:?}", "Image saved to:".green(), output_path),
+                    Err(err) => println!(
+                        "{} {} \nDid you specify the image extension? {}",
+                        "Error:".red(),
+                        err.red(),
+                        "[ ~/path/to/image.png ]".green()
+                    ),
                 }
             }
         }
         Some(Mode::Extract) => {
             println!("Extracting...");
 
-            let image = image::open(args.image.unwrap_or_default())?;
+            let image = image::open(input_path.unwrap_or_default())?;
 
             if let Some(message) = extract_message_from_red_ch(image) {
                 println!("Extracted message: {}", message);
