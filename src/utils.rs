@@ -115,6 +115,7 @@ pub fn extract_message(args: StegoArgs) -> Result<(), ImageError> {
     Ok(())
 }
 
+// Print banner
 pub fn print_banner(args: StegoArgs) {
     if args.is_empty() {
         println!(
