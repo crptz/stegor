@@ -38,4 +38,4 @@ For more please see the [TODO](#todo-list) list
 - [✗] Write the user manual
 - [✗] Add support for JPEG images
 - [✗] Improve performance of the encoding algorithm
-- [✗] Create algorithm to store data in image instead adding them at start of the image
+- [✗] Create algorithm to store data random position in image instead adding them at start of the image
