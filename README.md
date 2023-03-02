@@ -34,6 +34,7 @@ For more please see the [TODO](#todo-list) list
 # Todo List
 
 - [✓] Support PNG images or any other Lossless format images (BMP, GIF, TIFF)
+- [✗] Add encryption/decryption
 - [✗] Write the user manual
 - [✗] Add support for JPEG images
 - [✗] Improve performance of the encoding algorithm
