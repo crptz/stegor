@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["pwn_it@unavoidable0100"]
 description = "A steganography tool too extract and hide data inside images and more"
 readme = "README.md"
-repository = "https://github.com/unavoidable0100/stego-rs"
+repository = "https://github.com/unavoidable0100/stegor"
 keywords = ["steganography", "images", "encryption", "cli"]
 publish = false # for now :)
 
@@ -15,3 +15,4 @@ publish = false # for now :)
 clap = { version = "4.0", features = ["derive"] }
 image = "0.24.5"
 owo-colors = "3.5.0"
+rpassword = "7.2.0"

@@ -141,3 +141,15 @@ pub fn save_image(image: DynamicImage, path: String) -> Result<(), ImageError> {
 
     Ok(())
 }
+
+// Prompts the user to enter password if he hasn't specify the `-p` argument
+fn prompt_password() -> std::io::Result<String> {
+    use std::io::{self, Write};
+    let stdout = io::stdout();
+    let mut stdout = stdout.lock();
+    write!(stdout, "Enter password: ")?;
+    stdout.flush()?;
+    let password = rpassword::read_password()?;
+    writeln!(stdout)?;
+    Ok(password)
+}
