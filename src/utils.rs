@@ -143,7 +143,7 @@ pub fn save_image(image: DynamicImage, path: String) -> Result<(), ImageError> {
 }
 
 // Prompts the user to enter password if he hasn't specify the `-p` argument
-fn prompt_password() -> std::io::Result<String> {
+fn _prompt_password() -> std::io::Result<String> {
     use std::io::{self, Write};
     let stdout = io::stdout();
     let mut stdout = stdout.lock();
